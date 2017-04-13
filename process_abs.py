@@ -2,6 +2,9 @@ from __future__ import print_function, unicode_literals
 import re
 import pandas
 from indra.databases import hgnc_client
+from indra.util import write_unicode_csv
+from indra.literature import pubmed_client
+import random
 
 ab_file = 'MDACC_RPPA_Standard Ab List_Updated.xlsx'
 ab_sheet = 'Current_Standard Ab List_304_'
@@ -66,11 +69,30 @@ def get_ab_genes(data):
 
 def check_ab_genes(genes):
     print('Invalid gene names\n------------------')
+    valid_genes = []
     for gene in genes:
         hgnc_id = hgnc_client.get_hgnc_id(gene)
         if not hgnc_id:
             print(gene)
+        else:
+            valid_genes.append(gene)
+    return valid_genes
+
 
 if __name__ == '__main__':
-    ab = read_ab_table(ab_file, ab_sheet)
+    ab_data = read_ab_table(ab_file, ab_sheet)
+    valid_genes = check_ab_genes(get_ab_genes(ab_data))
+    write_unicode_csv('ab_gene_list.csv', [[gene] for gene in valid_genes])
+    gene_pmids = {}
+    all_pmids = set([])
+    for gene in valid_genes:
+        pmids = pubmed_client.get_ids_for_gene(gene)
+        gene_pmids[gene] = pmids
+        all_pmids = all_pmids.union(set(pmids))
+    all_pmids = list(all_pmids)
+    # The PMIDs went through a set so they are presumably not ordered, but
+    # it never hurts to shuffle for good measure--this keeps the
+    # full text/abstract distribution more uniform across the corpus
+    random.Random(0).shuffle(all_pmids)
+    write_unicode_csv('ab_pmid_list.csv', [[pmid] for pmid in all_pmids])
 
