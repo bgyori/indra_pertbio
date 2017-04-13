@@ -13,31 +13,37 @@ ab_gene_map = {
         'OCT4': ['POU5F1'],
         'RAB11A,B': ['RAB11A', 'RAB11B'],
         'RPS6K': ['RPS6KA1', 'RPS6KA2', 'RPS6KA3', 'RPS6KA4', 'RPS6KA5',
-                  'RPS6KA6', 'RPS6KB1', 'RPS6KB2']
-        '''
-        C12ORF5
-        CD26
-        CNST43
-        EMA
-        FRA1
-        GLUD
-        H3K9ME2
-        HISTH3
-        HSP27
-        HSP70
-        INSRB
-        LC3AB
-        PAR
-        PDHK1
-        PKM2
-        PTGS3
-        RIP
-        RPA32
-        TAU
-        XPF
-        '''
+                  'RPS6KA6', 'RPS6KB1', 'RPS6KB2'],
+        'TAU': ['MAPT'],
+        'EMA': ['MUC1'],
+        'GLUD': ['GLUD1', 'GLUD2'],
+        'INSRB': ['INSR'],
+        # https://www.cellsignal.com/products/primary-antibodies/hsp70-antibody/4872
+        'HSP70': ['HSPA1L', 'HSPA1A', 'HSPA8'],
+        'PKM2': ['PKM'],
+        'C12ORF5': ['TIGAR'],
+        'PDHK1': ['PDK1'],
+        'XPF': ['ERCC4'],
+        'CD26': ['DPP4'],
+        'CNST43': ['GJA1'],
+        'FRA1': ['FOSL1'],
+        'HSP27': ['HSPB1'],
+        # This appears to be the wrong/invalid gene name, the antibody is
+        # listed as binding COX IV
+        # https://www.cellsignal.com/products/primary-antibodies/cox-iv-3e11-rabbit-mab/4850
+        'PTGS3': ['COX4I1', 'COX4I2'],
+        'RIP': ['RIPK1'],
+        'LC3AB': ['MAP1LC3A', 'MAP1LC3B', 'MAP1LC3C'],
+        'RPA32': ['RPA2'],
+        'HISTH3': ['HIST1H3A', 'HIST1H3B', 'HIST1H3C', 'HIST1H3D', 'HIST1H3E',
+                   'HIST1H3F', 'HIST1H3G', 'HIST1H3H', 'HIST1H3I', 'HIST1H3J'],
         }
 
+# H3K9ME2 refers to Histone H3 dimethylated on lysine 9; an indicator of
+# transcriptional silencing
+
+# PAR (http://www.amsbio.com/productpage.aspx?code=4336-BPC-100)
+# detects ribosylated proteins (not a specific gene/protein)
 
 def read_ab_table(ab_file=ab_file, ab_sheet=ab_sheet):
     with open(ab_file, 'r') as fh:
@@ -64,4 +70,7 @@ def check_ab_genes(genes):
         hgnc_id = hgnc_client.get_hgnc_id(gene)
         if not hgnc_id:
             print(gene)
+
+if __name__ == '__main__':
+    ab = read_ab_table(ab_file, ab_sheet)
 
