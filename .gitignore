@@ -1,3 +1,9 @@
+bel_output.rdf
+*.pkl
+*.owl
+*.csv
+MDACC_RPPA_Standard Ab List_Updated.xlsx
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
