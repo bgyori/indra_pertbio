@@ -78,10 +78,13 @@ def check_ab_genes(genes):
             valid_genes.append(gene)
     return valid_genes
 
+def get_valid_genes():
+    ab_data = read_ab_table()
+    valid_genes = check_ab_genes(get_ab_genes(ab_data))
+    return valid_genes
 
 if __name__ == '__main__':
-    ab_data = read_ab_table(ab_file, ab_sheet)
-    valid_genes = check_ab_genes(get_ab_genes(ab_data))
+    valid_genes = get_valid_genes()
     write_unicode_csv('ab_gene_list.csv', [[gene] for gene in valid_genes])
     gene_pmids = {}
     all_pmids = set([])
