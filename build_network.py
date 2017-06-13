@@ -45,7 +45,6 @@ if __name__ == '__main__':
     if not reassemble:
         stmts = ac.load_statements(pjoin(outf, 'preassembled.pkl'))
     else:
-        """
         data_genes = get_valid_genes()
         #prior_stmts = build_prior(data_genes, pjoin(outf, 'prior.pkl'))
         #prior_stmts = ac.map_grounding(prior_stmts,
@@ -57,17 +56,16 @@ if __name__ == '__main__':
                     '../indra/models/phase3_eval/sources/Kinase_substrates.owl')
         reading_stmts = reach_stmts + phosphosite_stmts
         reading_stmts = ac.map_grounding(reading_stmts,
-                                         save=pjoin(outf, 'gmapped_reading.pkl'))
+                                       save=pjoin(outf, 'gmapped_reading.pkl'))
         stmts = prior_stmts + reading_stmts
-
+        ac.dump_statements(stmts, pjoin(outf, 'raw_stmts.pkl'))
         stmts = ac.filter_grounded_only(stmts)
         stmts = ac.filter_genes_only(stmts, specific_only=False)
         stmts = ac.filter_human_only(stmts)
         stmts = ac.expand_families(stmts)
-        #stmts = ac.filter_gene_list(stmts, data_genes, 'one')
-        #stmts = ac.map_sequence(stmts, save=pjoin(outf, 'smapped.pkl'))
-        """
-        stmts = ac.load_statements(pjoin(outf, 'smapped.pkl'))
+        stmts = ac.filter_gene_list(stmts, data_genes, 'one')
+        stmts = ac.map_sequence(stmts, save=pjoin(outf, 'smapped.pkl'))
+        #stmts = ac.load_statements(pjoin(outf, 'smapped.pkl'))
         stmts = ac.run_preassembly(stmts, return_toplevel=False,
                                    save=pjoin(outf, 'preassembled.pkl'),
                                    poolsize=4)
