@@ -1,7 +1,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 from builtins import dict, str
 from os.path import join as pjoin
-from indra.assemblers import CxAssembler
+from indra.assemblers.cx import CxAssembler
 import indra.tools.assemble_corpus as ac
 
 def assemble_cx(stmts, out_file_prefix, network_type):
